@@ -1,4 +1,4 @@
-(asdf:defsystem cl-async-base
+(asdf:defsystem cl-async/base
   :author "Andrew Danger Lyon <orthecreedence@gmail.com>"
   :license "MIT"
   :version "0.6.1"
@@ -8,7 +8,7 @@
   :components
   ((:file "src/base")))
 
-(asdf:defsystem cl-async-util
+(asdf:defsystem cl-async/util
   :author "Andrew Danger Lyon <orthecreedence@gmail.com>"
   :license "MIT"
   :version "0.6.1"
@@ -18,7 +18,7 @@
                #:vom
                #:cl-libuv
                #:cl-ppcre
-               #:cl-async-base)
+               #:cl-async/base)
   :serial t
   :components
   ((:file "src/util/package")
@@ -35,8 +35,8 @@
                #:trivial-features
                #:static-vectors
                #:cl-libuv
-               #:cl-async-base
-               #:cl-async-util
+               #:cl-async/base
+               #:cl-async/util
                #:babel
                #:cl-ppcre
                #:trivial-gray-streams
@@ -60,4 +60,3 @@
      (:file "idle" :depends-on ("package"))
      (:file "process" :depends-on ("pipe"))
      (:file "fsevent" :depends-on ("streamish"))))))
-
