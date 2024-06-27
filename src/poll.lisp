@@ -1,9 +1,14 @@
 (in-package :cl-async)
 
+(defvar *poller-tracker* (make-hash-table))
+
 (defclass poller ()
   ((c :accessor poller-c :initarg :c :initform (cffi:null-pointer))
    (freed :accessor poller-freed :reader poller-freed-p :initform nil))
   (:documentation "Wraps a polling handle."))
+
+(defmethod cl-async::handle-cleanup ((handle-type (eql :poll)) handle)
+  (free-poller (gethash (cffi:pointer-address handle) *poller-tracker*)))
 
 (defun free-poller (poller)
   "Stop and free a poller."
@@ -54,5 +59,5 @@
       (save-callbacks poll-c (list :poll-cb poll-cb
                                    :event-cb event-cb))
       (uv:uv-poll-start poll-c events (cffi:callback poll-cb)))
+    (setf (gethash (cffi:pointer-address poll-c) *poller-tracker*) poller)
     poller))
-
